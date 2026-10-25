@@ -1,0 +1,10 @@
+[package]
+name = "learn"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+teloxide = { version = "0.17.0", features = ["macros"] }
+tokio = { version =  "1.39", features = ["rt-multi-thread", "macros"] }
+sqlx = { version = "0.7", features = ["sqlite", "runtime-tokio", "macros"] }
+dotenvy = "0.15"

@@ -4,10 +4,10 @@ pub enum State {
     Start,
     Title,
     Text {
-        title: String
+        title: String,
     },
     Priority {
         title: String,
-        text: String
-    }
+        text: String,
+    },
 }

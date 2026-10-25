@@ -1,7 +1,9 @@
-use sqlx::{SqlitePool, Row};
+use sqlx::{Row, SqlitePool};
 
 pub async fn create_db() -> SqlitePool {
-    SqlitePool::connect("sqlite://bot.db?mode=rwc").await.expect("Не удалось подключится")
+    SqlitePool::connect("sqlite://bot.db?mode=rwc")
+        .await
+        .expect("Не удалось подключится")
 }
 
 pub async fn init_db(pool: &SqlitePool) {
@@ -11,11 +13,11 @@ pub async fn init_db(pool: &SqlitePool) {
                 name TEXT NOT NULL,
                 text TEXT NOT NULL,
                 priority TEXT NOT NULL
-            )"
+            )",
     )
-        .execute(pool)
-        .await
-        .expect("Не удалось создать таблицу");
+    .execute(pool)
+    .await
+    .expect("Не удалось создать таблицу");
 }
 
 pub async fn add_note(pool: &SqlitePool, name: String, text: String, priority: String) {
@@ -43,10 +45,11 @@ pub async fn select_notes_sorted(pool: &SqlitePool) -> Vec<(String, String, Stri
                         WHEN 'high' THEN 1
                         WHEN 'medium' THEN 2
                         WHEN 'low' THEN 3
-                        ELSE 4 END ")
-        .fetch_all(pool)
-        .await
-        .unwrap_or_default();
+                        ELSE 4 END ",
+    )
+    .fetch_all(pool)
+    .await
+    .unwrap_or_default();
 
     rows.iter()
         .map(|row| (row.get("name"), row.get("text"), row.get("priority")))
@@ -60,8 +63,7 @@ pub async fn select_note(pool: &SqlitePool, name: &str) -> Vec<(String, String, 
         .await
         .unwrap_or_default();
 
-    rows.iter().map(|row| (row.get("name"), row.get("text"), row.get("priority"))).collect()
+    rows.iter()
+        .map(|row| (row.get("name"), row.get("text"), row.get("priority")))
+        .collect()
 }
-
-
-
